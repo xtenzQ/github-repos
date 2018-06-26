@@ -1,3 +1,3 @@
 # github-repos
 
-Github Repos made to embed repositories into your website
+Github Repos is a widget which allows you to embed repositories into your website
