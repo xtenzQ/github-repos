@@ -22,7 +22,7 @@ function showDays(firstDate, secondDate){
  * @param {String} username The GitHub username
  * @param {Object} option embedded repositories
  */
-function getRepos(username, repositories) {
+function getRepos(username, columns, spacing, repositories) {
     var url = '';
     var id;
     var name = '';
@@ -37,6 +37,9 @@ function getRepos(username, repositories) {
     var lcns;
     var update;
     var license = '';
+    var cnt = 0;
+    var rowNumber = 0;
+    var columnCounter = 0;
 
     // hosting container
     // container = $(container);
@@ -47,7 +50,6 @@ function getRepos(username, repositories) {
 
     // 
     let myoptions = repositories.replace(/ /g,'').split(",");
-    console.log(myoptions);
 
     var d = new Date();
 
@@ -57,21 +59,22 @@ function getRepos(username, repositories) {
     var output = d.getFullYear() + '/' +
         (month<10 ? '0' : '') + month + '/' +
         (day<10 ? '0' : '') + day;
-    let header = '<div class="container"><div class="row">';
-    let footer = '</div></div>';
+    var header = '<div class="container" id="rowHost">' +
+                    '<div class="row my-' + spacing + '"><div class="col-12 align-items-stretch">' +
+                        '<div class="card-deck" id="cardHost">';
+    var footer = '</div></div></div>';
     $('#repos').append(header);
+
+    let opLenth = myoptions.length;
 
     $.getJSON('https://api.github.com/users/' + username + '/repos', function (obj) {
         $.each(obj , function(key , value){ // First Level
-
             // Name of a repository with - instead of spaces
             name = value.name;
 
             if (!(myoptions.includes(name))) {
                 return;
             }
-
-            console.log(value.name);
 
             url = value.html_url;
             id = value.id;
@@ -105,26 +108,29 @@ function getRepos(username, repositories) {
                 color = '#fff';
             }
 
-            let body = '<div class="col-sm-3">' +
-                            '<div class="card">' +
-                                '<div class="card-body">' +
-                                    '<h5 class="card-title"><i class="fa fa-laptop" aria-hidden="true"></i> <a href="' + url + '">' + name + '</a></h5>' +
-                                    '<p class="card-text">' + description + '</p>' +
-                                    '<p>' +
-                                        '<button type="button" class="btn btn-primary" style="background: ' + color + ' !important; border-color: ' + color + ' !important;"><i class="fa fa-code"></i> ' + language + '</button>' +
-                                        '<button type="button" class="btn btn-link"><i class="fa fa-star"></i> ' + stargazers_count + ' </button>' +
-                                        '<button type="button" class="btn btn-link"><i class="fa fa-code-fork" aria-hidden="true"></i> ' + forks_count + '</button>' +
-                                        lcns +
-                                    '</p>' +
-                                    '</div>' +
-                                    '<div class="card-footer">' +
-                                    '<small class="text-muted">Last update ' + showDays(output, update) + '</small>' +
+            $('#cardHost').append(
+                        '<div class="card">' +
+                            '<div class="card-body">' +
+                                '<h5 class="card-title"><i class="fa fa-laptop" aria-hidden="true"></i> <a href="' + url + '">' + name + '</a></h5>' +
+                                '<p class="card-text">' + description + '</p>' +
+                                '<div class="align-items-end">' +
+                                    '<button type="button" class="btn btn-primary" style="background: ' + color + ' !important; border-color: ' + color + ' !important;"><i class="fa fa-code"></i> ' + language + '</button>' +
+                                    '<button type="button" class="btn btn-link"><i class="fa fa-star"></i> ' + stargazers_count + ' </button>' +
+                                    '<button type="button" class="btn btn-link"><i class="fa fa-code-fork" aria-hidden="true"></i> ' + forks_count + '</button>' +
+                                    lcns +
                                 '</div>' +
                             '</div>' +
-                        '</div>';
+                            '<div class="card-footer">' +
+                            '<small class="text-muted">Last update ' + showDays(output, update) + '</small>' +
+                            '</div>' +
+                        '</div>'
+            );
+            columnCounter++;
 
-            $('#repos').append(body);
+            if (columnCounter % columns === 0) {
+                $('#cardHost').append('<div class="w-100 py-2"></div>');
+            }
         });
     });
-    $('#repos').append(footer);
+    $('#repos').add(footer);
 }
