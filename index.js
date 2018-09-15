@@ -68,7 +68,63 @@ function getRepos(container, username, columns, options) {
     // repository data of a given user
     const urlRepositories = 'https://api.github.com/users/' + username + '/repos';
     let repositories;
-    
+
+    // container div
+    const containerDiv = $('<div/>',
+        { class: 'container', id: 'rowHost' });
+    // row div
+    const rowDiv = $('<div/>', {
+        class: 'row my-15' });
+    //
+    const colDiv = $('<div/>', {
+        class: 'col-12 align-items-stretch' });
+    //
+    const deckDiv = $('<div/>', {
+        class: 'card-deck', id: 'cardHost' });
+    //
+    const footer = $('</div></div></div>');
+    //
+    const cardDiv = $('<div/>', {
+        class: 'card' });
+    //
+    const cardBody = $('<div/>', {
+        class: 'card-body d-flex flex-column' });
+    //
+    const h5 = $('<div/>', {
+        class: 'card-title' });
+    //
+    let iconType = '';
+    //
+    let icon = $('<div/>', {
+        class: 'fa ' + iconType + '' });
+    //
+    let alink = $('<div/>', {
+        href: url });
+    //
+    const cardText = $('<div/>', {
+        class: 'card-text' });
+    //
+    const divInside = $('<div/>', {
+        class: 'mt-auto align-items-end' });
+
+    '<div class="card">' +
+    '<div class="card-body d-flex flex-column">' +
+    '<h5 class="card-title"><i class="fa fa-laptop" aria-hidden="true"></i> <a href="' + url + '">' + name + '</a> ' + frk + '</h5>' +
+    '<p class="card-text">' + description + '</p>' +
+    '<div class="mt-auto align-items-end">' +
+    lngv +
+    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Commits"><i class="fa fa-circle-o-notch" aria-hidden="true"></i> ' + contCount + '</button>' +
+    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Contributors"><i class="fa fa-users" aria-hidden="true"></i> ' + pplCount + '</button>' +
+    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Stargazers"><i class="fa fa-star" aria-hidden="true"></i> ' + stargazers_count + ' </button>' +
+    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Forks"><i class="fa fa-code-fork" aria-hidden="true"></i> ' + forks_count + '</button>' +
+    lcns +
+    '</div>' +
+    '</div>' +
+    '<div class="card-footer">' +
+    '<small class="text-muted">Last update ' + showDays(output, update) + '</small>' +
+    '</div>' +
+    '</div>'
+
     // get language colors
     $.getJSON(urlColors)
         .then(function(data) {
@@ -91,6 +147,15 @@ function getRepos(container, username, columns, options) {
                 $.getJSON('https://api.github.com/repos/' + username + '/' + value.name + '/contributors').
                     then(function (data) {
 
+
+
+                        // get language color of current repository
+                        $.each(colors, function(c, v) {
+                            if (c === language) {
+                                color = v.color;
+                                return false;
+                            }
+                        });
                     })
                     .fail(function (reason) {
                         console.log("Can't get contributors data from given URL: " + reason);
