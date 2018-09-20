@@ -16,25 +16,6 @@ function showDays(firstDate, secondDate){
     return result;
 }
 
-function getColors() {
-    $.getJSON('https://raw.githubusercontent.com/ozh/github-colors/master/colors.json', function(json) {
-        return json;
-    });
-}
-
-/*function getAsyncData(targetedUrl) {
-    var result = null;
-    $.ajax({
-            async: false,
-            url: targetedUrl,
-            dataType: "json",
-            success: function(data){
-                result = data;
-            }
-        });
-        return result;
-}*/
-
 /***
  * GitHub Repository Embed Widget
  * @param {String|HTMLElement} Container for repositories
@@ -42,24 +23,13 @@ function getColors() {
  * @param {Object} option embedded repositories
  */
 function getRepos(container, username, columns, options) {
-    let url = '';
-    let id;
-    let name = '';
-    let language = '';
-    let description = '';
     let color = '';
-    let stargazers_count = '';
-    let forks_count = '';
-    let lcns;
-    let update;
     let columnCounter = 0;
-    let frk;
-    let graph;
 
-    container = $(container);
+    //container = $(container);
 
     // header
-    $(document.createElement('div'));
+    //$(document.createElement('div'));
 
     // colors data
     const urlColors = 'https://raw.githubusercontent.com/ozh/github-colors/master/colors.json';
@@ -69,6 +39,7 @@ function getRepos(container, username, columns, options) {
     const urlRepositories = 'https://api.github.com/users/' + username + '/repos';
     let repositories;
 
+    /*
     // container div
     const containerDiv = $('<div/>',
         { class: 'container', id: 'rowHost' });
@@ -106,24 +77,13 @@ function getRepos(container, username, columns, options) {
     //
     const divInside = $('<div/>', {
         class: 'mt-auto align-items-end' });
+    //
+    let title = '';
 
-    '<div class="card">' +
-    '<div class="card-body d-flex flex-column">' +
-    '<h5 class="card-title"><i class="fa fa-laptop" aria-hidden="true"></i> <a href="' + url + '">' + name + '</a> ' + frk + '</h5>' +
-    '<p class="card-text">' + description + '</p>' +
-    '<div class="mt-auto align-items-end">' +
-    lngv +
-    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Commits"><i class="fa fa-circle-o-notch" aria-hidden="true"></i> ' + contCount + '</button>' +
-    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Contributors"><i class="fa fa-users" aria-hidden="true"></i> ' + pplCount + '</button>' +
-    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Stargazers"><i class="fa fa-star" aria-hidden="true"></i> ' + stargazers_count + ' </button>' +
-    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Forks"><i class="fa fa-code-fork" aria-hidden="true"></i> ' + forks_count + '</button>' +
-    lcns +
-    '</div>' +
-    '</div>' +
-    '<div class="card-footer">' +
-    '<small class="text-muted">Last update ' + showDays(output, update) + '</small>' +
-    '</div>' +
-    '</div>'
+    let button = $('<div/>', {
+        type: 'button',
+        class: 'btn btn-link',
+        title: title });*/
 
     // get language colors
     $.getJSON(urlColors)
@@ -133,6 +93,18 @@ function getRepos(container, username, columns, options) {
         .fail(function(reason) {
             console.log("Can't get colors data from given URL: " + reason);
         });
+    let myOptions = options.replace(/ /g,'').split(",");
+    let d = new Date();
+    let month = d.getMonth() + 1;
+    let day = d.getDate();
+    let output = d.getFullYear() + '/' +
+        (month<10 ? '0' : '') + month + '/' +
+        (day<10 ? '0' : '') + day;
+    let header = '<div class="container" id="rowHost">' +
+        '<div class="row my-15"><div class="col-12">' +
+        '<div class="card-deck" id="cardHost">';
+    let footer = '</div></div></div>';
+    $(container).append(header);
 
     // get repositories
     $.getJSON(urlRepositories)
@@ -140,22 +112,57 @@ function getRepos(container, username, columns, options) {
             repositories = data;
             $.each(repositories , function(key , value) {
                 // if there's no such repo then next
-                if (!options.includes(value.name)) {
-                    return false;
+                if (!myOptions.includes(value.name)) {
+                    return;
                 }
                 // get contributors and commits
-                $.getJSON('https://api.github.com/repos/' + username + '/' + value.name + '/contributors').
-                    then(function (data) {
+                $.getJSON('https://api.github.com/repos/' + username + '/' + value.name + '/contributors')
+                    .then(function (data) {
 
-
-
-                        // get language color of current repository
                         $.each(colors, function(c, v) {
-                            if (c === language) {
+                            if (c === value.language) {
                                 color = v.color;
                                 return false;
                             }
                         });
+
+                        let contCount = 0;
+                        let license = (value.license !== null) ? '<button type="button" class="btn btn-link" aria-hidden="true"><i class="fa fa-file"></i> ' + value.license.name + '</button>' : '';
+                        let description = (value.description == null) ? "No description" : value.description;
+                        let language = (value.language !== null) ? '<button type="button" class="btn btn-primary" data-toggle="tooltip" title="License" style="background: ' + color + ' !important; border-color: ' + color + ' !important;"><i class="fa fa-code"></i> ' + value.language + '</button>' : '';
+                        let frk = (value.fork !== false) ? '<span class="badge badge-success">Forked</span>' : '';
+
+                        // count contributors
+                        $.each(data, function (k, v) {
+                            // First Level
+                            contCount += v.contributions;
+                        });
+
+                        $('#cardHost').append(
+                            '<div class="card">' +
+                            '<div class="card-body d-flex flex-column">' +
+                            '<h5 class="card-title"><i class="fa fa-laptop" aria-hidden="true"></i> <a href="' + value.html_url + '">' + value.name + '</a> ' + frk + '</h5>' +
+                            '<p class="card-text">' + description + '</p>' +
+                            '<div class="mt-auto align-items-end">' +
+                            language +
+                            '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Commits"><i class="fa fa-circle-o-notch" aria-hidden="true"></i> ' + contCount + '</button>' +
+                            '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Contributors"><i class="fa fa-users" aria-hidden="true"></i> ' + data.length + '</button>' +
+                            '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Stargazers"><i class="fa fa-star" aria-hidden="true"></i> ' + value.stargazers_count + ' </button>' +
+                            '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Forks"><i class="fa fa-code-fork" aria-hidden="true"></i> ' + value.forks_count + '</button>' +
+                            license +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="card-footer">' +
+                            '<small class="text-muted">Last update ' + showDays(output, value.updated_at) + '</small>' +
+                            '</div>' +
+                            '</div>'
+                        );
+                        columnCounter++;
+
+                        if (columnCounter % columns === 0) {
+                            $('#cardHost').append('<div class="w-100 py-2"></div>');
+                        }
+
                     })
                     .fail(function (reason) {
                         console.log("Can't get contributors data from given URL: " + reason);
@@ -166,113 +173,5 @@ function getRepos(container, username, columns, options) {
             console.log("Can't get repository information from given URL: " + reason);
         });
 
-
-
-    const myOptions = repositories.replace(/ /g,'').split(",");
-
-    let d = new Date();
-
-    let month = d.getMonth()+1;
-    let day = d.getDate();
-
-    let output = d.getFullYear() + '/' +
-        (month<10 ? '0' : '') + month + '/' +
-        (day<10 ? '0' : '') + day;
-    var header = '<div class="container" id="rowHost">' +
-                    '<div class="row my-15"><div class="col-12 align-items-stretch">' +
-                        '<div class="card-deck" id="cardHost">';
-    var footer = '</div></div></div>';
-    $(container).append(header);
-
-    $.getJSON('https://api.github.com/users/' + username + '/repos', function (obj) {
-        $.each(obj , function(key , value) {
-
-            if (!(myOptions.includes(value.name))) {
-                return;
-            }
-
-            $.getJSON('https://api.github.com/repos/' + username + '/' + name + '/contributors', function(obj) {
-
-                let contCount = 0;
-                let pplCount = 0;
-
-                name = value.name;
-
-                url = value.html_url;
-                id = value.id;
-                language = value.language;
-
-                description = value.description;
-                forks_count = value.forks_count;
-                stargazers_count = value.stargazers_count;
-                update = value.updated_at;
-
-                if (value.license !== null) {
-                    lcns = '<button type="button" class="btn btn-link" aria-hidden="true"><i class="fa fa-file"></i> ' + value.license.name + '</button>';
-                }
-                else {
-                    lcns = '';
-                }
-
-                $.each(colors, function(c, v) {
-                    if (c === language) {
-                        color = v.color;
-                        return false;
-                    }
-                });
-
-                if (description == null) {
-                    description = "No description";
-                }
-
-                let lngv;
-
-                if (language === null) {
-                    lngv = ''
-                }
-                else {
-                    lngv ='<button type="button" class="btn btn-primary" data-toggle="tooltip" title="License" style="background: ' + color + ' !important; border-color: ' + color + ' !important;"><i class="fa fa-code"></i> ' + language + '</button>';
-                }
-
-                pplCount = obj.length;
-                $.each(obj, function (k, v) { // First Level
-                    contCount += v.contributions;
-                });
-
-                if (value.fork !== false) {
-                    frk = '<span class="badge badge-success">Forked</span>';
-                }
-                else
-                {
-                    frk = '';
-                }
-
-                $('#cardHost').append(
-                    '<div class="card">' +
-                    '<div class="card-body d-flex flex-column">' +
-                    '<h5 class="card-title"><i class="fa fa-laptop" aria-hidden="true"></i> <a href="' + url + '">' + name + '</a> ' + frk + '</h5>' +
-                    '<p class="card-text">' + description + '</p>' +
-                    '<div class="mt-auto align-items-end">' +
-                    lngv +
-                    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Commits"><i class="fa fa-circle-o-notch" aria-hidden="true"></i> ' + contCount + '</button>' +
-                    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Contributors"><i class="fa fa-users" aria-hidden="true"></i> ' + pplCount + '</button>' +
-                    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Stargazers"><i class="fa fa-star" aria-hidden="true"></i> ' + stargazers_count + ' </button>' +
-                    '<button type="button" class="btn btn-link" data-toggle="tooltip" title="Forks"><i class="fa fa-code-fork" aria-hidden="true"></i> ' + forks_count + '</button>' +
-                    lcns +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="card-footer">' +
-                    '<small class="text-muted">Last update ' + showDays(output, update) + '</small>' +
-                    '</div>' +
-                    '</div>'
-                );
-                columnCounter++;
-
-                if (columnCounter % columns === 0) {
-                    $('#cardHost').append('<div class="w-100 py-2"></div>');
-                }
-            });
-        });
-    });
     $(container).add(footer);
 }
