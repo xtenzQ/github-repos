@@ -1,7 +1,5 @@
 # github-repos
 
-*Work in progress*
-
 > Github Repos is a widget which allows you to embed repositories into your website
 
 ![Image of Yaktocat](https://i.imgur.com/UbJ8rrG.jpg)
@@ -51,3 +49,7 @@ This widget is based on [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-
 
 ## IDEs and plugins used
 Developed with [JetBrains WebStorm](https://www.jetbrains.com/webstorm/)
+
+## In development
+- Adding loading indicator
+- Strict order card layout (following `repositories` parameter)
