@@ -53,3 +53,6 @@ Developed with [JetBrains WebStorm](https://www.jetbrains.com/webstorm/)
 ## 🔃 In development
 - Adding loading indicator
 - Strict order card layout (following `repositories` parameter)
+
+## 📜 License
+MIT License
