@@ -21,10 +21,8 @@
             border-radius: 3px;
             word-break: normal;
         }
-        .bag > h1 {
-            text-align: center;
-            font-weight: 100;
-            font-size: 25px;
+        #ann {
+            padding: 0 20px;
         }
 
     </style>
@@ -33,26 +31,52 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h4  class="section-heading">Embed your repositories anywhere!</h4>
+            <h5  class="section-heading">Embed your repositories anywhere with 📄 #<a href="https://github.com/xtenzQ/github-repos">github-repos</a>!</h5>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-3">
         <div id="repos"></div>
         <script>
             getRepos('#repos', 'xtenzQ', 2, "2D-metaballs, MetaBalls, FlatiumVR, xtenzQ.github.io, Jogl-Helicopter, QBrowser");
         </script>
     </div>
+    <div class="row" id="ann">
+        <p>Use the code below to embed the repositories you want into your page:</p>
+    </div>
     <div class="col" id="code">
+
         <code>
-&lt;link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"&gt;<br><br>
-&lt;link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"&gt;<br><br>
-&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"&gt;&lt;/script&gt;<br><br>
-&lt;script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"&gt;&lt;/script&gt;<br><br>
-&lt;script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"&gt;&lt;/script&gt;<br><br>
-&lt;script src="index.js"&gt;&lt;/script&gt;
+&lt;html&gt;<br>
+    &lt;head&gt;<br>
+        &lt;!-- Bootstrap 4.1.3 CSS --&gt;<br>
+        &lt;link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"&gt;<br><br>
+
+        &lt;!-- Font Awesome 4.7.0 CSS -&gt;<br>
+        &lt;link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"&gt;<br><br>
+
+        &lt;!-- jQuery 3.3.1 JS --&gt;<br>
+        &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"&gt;&lt;/script&gt;<br><br>
+
+        &lt;!-- Bootstrap  4.1.3 JS --&gt;<br>
+        &lt;script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"&gt;&lt;/script&gt;<br>
+        &lt;script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"&gt;&lt;/script&gt;<br><br>
+
+        &lt;!-- CDN Rawgit link to widget script --&gt;<br>
+        &lt;script src="https://cdn.rawgit.com/xtenzQ/github-repos/master/index.js"&gt;&lt;/script&gt;<br>
+    &lt;/head&gt;<br>
+    &lt;body&gt;<br>
+        &lt;!-- container --&gt;<br>
+        &lt;div id="repos"&gt;<br>
+        &lt;/div&gt;<br>
+        &lt;!-- script --&gt;<br>
+        &lt;script&gt;<br>
+            getRepos('#repos', 'xtenzQ', 2, "2D-metaballs, MetaBalls, github-repos, xtenzQ.github.io, Jogl-Helicopter, QBrowser");<br>
+        &lt;/script&gt;<br>
+    &lt;/body&gt;<br>
+&lt;/html&gt;
         </code>
     </div>
-    <div class="text-center">
+    <div class="text-center mt-1">
         <span>by <a href="https://xtenzq.ru/">@xtenzQ</a></span>
     </div>
 </div>
