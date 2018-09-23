@@ -28,8 +28,12 @@ This widget is based on [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
 
+<!-- CDN Rawgit link to widget css -->
+<link href="https://cdn.rawgit.com/xtenzQ/github-repos/master/style.css" rel="stylesheet">  
+  
 <!-- CDN Rawgit link to widget script -->
 <script src="https://cdn.rawgit.com/xtenzQ/github-repos/master/index.js"></script>
+  
 </head>
 <body>
   <!-- container -->
