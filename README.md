@@ -2,6 +2,8 @@
 
 > Github Repos is a widget which allows you to embed repositories into your website
 
+[Check it](https://xtenzq.github.io/github-repos/example/)!
+
 ![Image of Yaktocat](https://i.imgur.com/UbJ8rrG.jpg)
 
 ## ❓ How to use
