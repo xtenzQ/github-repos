@@ -25,7 +25,9 @@ function showDays(firstDate, secondDate){
  * @param {Object} option embedded repositories
  */
 function getRepos(container, username, columns, options) {
+    $(container).hide();
     $(document).ready(function() {
+
         let color = '';
         let columnCounter = 0;
 
@@ -54,13 +56,11 @@ function getRepos(container, username, columns, options) {
             (month < 10 ? '0' : '') + month + '/' +
             (day < 10 ? '0' : '') + day;
         let header = '<div class="container" id="rowHost">' +
-            '<div class="row my-15"><div class="col-12">' +
+            '<div class="row my-15"><div class="col-lg-12">' +
             '<div class="card-deck" id="cardHost">';
         let footer = '</div></div></div>';
         $(container).before('<div id="lds-dual-ring"></div>');
-        $(container).hide();
         $(container).append(header);
-
         // get repositories
         $.getJSON(urlRepositories)
             .then(function (data) {
@@ -87,7 +87,7 @@ function getRepos(container, username, columns, options) {
                                 contCount += v.contributions;
                             });
                             $('#cardHost').append(
-                                '<div class="card">' +
+                                '<div class="card" style="margin-bottom: 20px;">' +
                                 '<div class="card-body d-flex flex-column">' +
                                 '<h5 class="card-title"><i class="fa fa-laptop" aria-hidden="true"></i> <a href="' + value.html_url + '">' + value.name + '</a> ' + (value.fork !== false ? '<span class="badge badge-success">Forked</span>' : '') + '</h5>' +
                                 '<p class="card-text">' + (value.description == null ? "No description" : value.description) + '</p>' +
@@ -107,14 +107,16 @@ function getRepos(container, username, columns, options) {
                             );
                             columnCounter++;
                             if (columnCounter % columns === 0) {
-                                $('#cardHost').append('<div class="w-100 py-2"></div>');
+                                $('#cardHost').append('<div class="w-100"></div>');
                             }
                         })
                 });
-            });
-        $(container).add(footer);
-        $('#lds-dual-ring').hide();
-        $(container).show();
+                $(container).add(footer);
+            }).then(function () {
+            $('#lds-dual-ring').hide();
+            $(container).show();
+        });
+
     });
 
 }
