@@ -56,8 +56,8 @@ This widget is based on [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-
 ## 🛠 IDEs and plugins used
 Developed with [JetBrains WebStorm](https://www.jetbrains.com/webstorm/)
 
-## 🔃 In development
-- Adding loading indicator
+## 🔃 TODO list
+The things I haven't implemented yet =/
 - Strict order card layout (following `repositories` parameter)
 
 ## 📜 License
