@@ -52,6 +52,7 @@ This widget is based on [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-
 - **String** `username`: The GitHub username.
 - **Integer** `columns`: Number of columns for repositories
 - **String** `repositories`: Repositories that you want to embed
+- **String** `color`: Custom language button color
 
 ## 🛠 IDEs and plugins used
 Developed with [JetBrains WebStorm](https://www.jetbrains.com/webstorm/)
