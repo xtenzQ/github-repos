@@ -24,7 +24,7 @@ function showDays(firstDate, secondDate){
  * @param {String} username The GitHub username
  * @param {Object} option embedded repositories
  */
-function getRepos(container, username, columns, options) {
+function getRepos(container, username, columns, options, defColor) {
     $(container).hide();
     $(document).ready(function() {
 
@@ -74,12 +74,15 @@ function getRepos(container, username, columns, options) {
                     $.getJSON('https://api.github.com/repos/' + username + '/' + value.name + '/contributors')
                         .then(function (data) {
 
-                            $.each(colors, function (c, v) {
-                                if (c === value.language) {
-                                    color = v.color;
-                                    return false;
-                                }
-                            });
+							if (color !== null) {
+								$.each(colors, function (c, v) {
+									if (c === value.language) {
+										color = v.color;
+										return false;
+									}
+								});
+							}
+							else color = defColor;
                             let contCount = 0;
                             // count contributors
                             $.each(data, function (k, v) {
