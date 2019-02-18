@@ -74,7 +74,7 @@ function getRepos(container, username, columns, options, defColor) {
                     $.getJSON('https://api.github.com/repos/' + username + '/' + value.name + '/contributors')
                         .then(function (data) {
 
-							if (color !== null) {
+							if (defColor === '') {
 								$.each(colors, function (c, v) {
 									if (c === value.language) {
 										color = v.color;
